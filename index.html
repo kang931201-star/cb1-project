@@ -824,11 +824,16 @@
       text-align: center;
     }
     .side-nav__item.is-hover { transform: translateX(-4px); }
+    .side-nav__top:hover {
+      background-image: url('img/side_bar/01_kv_hovering.png');
+    }
     .side-nav__top {
       width: 154px;
       height: 49px;
       border: 0;
-      background: url('img/01_KV=Activate.png') center/100% 100% no-repeat;
+      background: url('img/side_bar/01_kv_activate.png') center/100% 100% no-repeat;
+      background-size: 100% 100%;
+      transition: background-image 0.2s;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1968,10 +1973,26 @@
 
   <!-- 사이드 플로팅 네비 -->
   <nav class="side-nav" id="sideNav" aria-label="섹션 네비게이션">
-    <button class="side-nav__item is-active" data-target="how-to-join" data-image-key="02_HOW_TO_JOIN" aria-label="랭킹전 참여방법 섹션으로 이동">랭킹전 참여방법</button>
-    <button class="side-nav__item" data-target="rewards" data-image-key="03_REWARDS" aria-label="랭킹전 경품 안내 섹션으로 이동">랭킹전 경품 안내</button>
-    <button class="side-nav__item" data-target="new-player-event" data-image-key="04_NEW_ PLAYER_EVENT" aria-label="신규 참여 이벤트 섹션으로 이동">신규 참여 이벤트</button>
-    <button class="side-nav__item" data-target="winner-rewards" data-image-key="05_WINNER_REWARDS" aria-label="치킨 달성 이벤트 섹션으로 이동">치킨 달성 이벤트</button>
+    <button class="side-nav__item is-active" data-target="how-to-join"
+      data-img-active="img/side_bar/02_how_activate.png"
+      data-img-disabled="img/side_bar/02_how_disabled.png"
+      data-img-hover="img/side_bar/02_how_hovering.png"
+      aria-label="랭킹전 참여방법 섹션으로 이동">랭킹전 참여방법</button>
+    <button class="side-nav__item" data-target="rewards"
+      data-img-active="img/side_bar/03_rewards_activate.png"
+      data-img-disabled="img/side_bar/03_rewards_disabled.png"
+      data-img-hover="img/side_bar/03_rewards_hovering.png"
+      aria-label="랭킹전 경품 안내 섹션으로 이동">랭킹전 경품 안내</button>
+    <button class="side-nav__item" data-target="new-player-event"
+      data-img-active="img/side_bar/04_new_activate.png"
+      data-img-disabled="img/side_bar/04_new_disabled.png"
+      data-img-hover="img/side_bar/04_new_hovering.png"
+      aria-label="신규 참여 이벤트 섹션으로 이동">신규 참여 이벤트</button>
+    <button class="side-nav__item" data-target="winner-rewards"
+      data-img-active="img/side_bar/05_winner_rewards_Activate.png"
+      data-img-disabled="img/side_bar/05_winner_rewards_Disabled.png"
+      data-img-hover="img/side_bar/05_winner_rewards_hovering.png"
+      aria-label="치킨 달성 이벤트 섹션으로 이동">치킨 달성 이벤트</button>
     <button class="side-nav__top" onclick="scrollToTop()" aria-label="페이지 맨 위로 이동">TOP</button>
   </nav>
 
@@ -2477,7 +2498,7 @@
         <!-- 타이틀 -->
         <div class="npe-title fade-up">
           <h2 id="npe-heading" class="npe-title__heading">
-            <img class="npe-title__img" src="03_tile_txt.png" alt="03 NEW PLAYER EVENT. 어서와, 배그 랭킹전은 처음이지?" loading="lazy" decoding="async" />
+            <img class="npe-title__img" src="img/03_tile_txt.png" alt="03 NEW PLAYER EVENT. 어서와, 배그 랭킹전은 처음이지?" loading="lazy" decoding="async" />
           </h2>
         </div>
 
@@ -2739,17 +2760,17 @@
     }
 
     // ── 사이드 네비 이미지 상태 관리 ──
-    var sideNavImageSuffix = {
-      active: 'Activate',
-      disabled: 'Disabled',
-      hover: 'hovering'
+    var sideNavImageAttr = {
+      active: 'imgActive',
+      disabled: 'imgDisabled',
+      hover: 'imgHover'
     };
     var hoveredSideNavItem = null;
     function setSideNavItemImage(item, state) {
-      var key = item.dataset.imageKey;
-      var suffix = sideNavImageSuffix[state];
-      if (!key || !suffix) { return; }
-      item.style.backgroundImage = "url('img/" + key + "=" + suffix + ".png')";
+      var attr = sideNavImageAttr[state];
+      var url = attr ? item.dataset[attr] : '';
+      if (!url) { return; }
+      item.style.backgroundImage = "url('" + url + "')";
     }
     function refreshSideNavImages() {
       navItems.forEach(function(item) {
