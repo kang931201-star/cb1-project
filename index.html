@@ -252,12 +252,195 @@
     }
 
     /* ════════════════════════════════════════
+       JOIN MODAL (참여하기 모달)
+    ════════════════════════════════════════ */
+    .join-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+    .join-modal[hidden] { display: none; }
+    .join-modal.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .join-modal__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 14, 28, 0.62);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+    .join-modal__panel {
+      position: relative;
+      width: 100%;
+      max-width: 740px;
+      max-height: calc(100vh - 48px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px 40px 36px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      transform: translateY(12px) scale(0.98);
+      transition: transform 0.22s ease;
+      font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
+      color: #111;
+    }
+    .join-modal.is-open .join-modal__panel {
+      transform: translateY(0) scale(1);
+    }
+    .join-modal__close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 0;
+      color: #111;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.15s ease;
+    }
+    .join-modal__close:hover { background: #f1f3f6; }
+    .join-modal__close svg { width: 22px; height: 22px; display: block; }
+    .join-modal__title {
+      margin: 0;
+      text-align: center;
+      font-family: '격동고딕', 'Pretendard', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.2px;
+      color: #111;
+    }
+    .join-modal__subtitle {
+      margin: 10px 0 26px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+      color: #3b3f47;
+    }
+    .join-modal__cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .join-modal__card {
+      background: #eef3fe;
+      border: 1.5px solid #b9cdff;
+      border-radius: 12px;
+      padding: 16px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .join-modal__card-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Pretendard', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #0f2fc9;
+    }
+    .join-modal__card-icon {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .join-modal__card-icon svg { width: 100%; height: 100%; display: block; }
+    .join-modal__card-img-wrap {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .join-modal__card-img-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .join-modal__install {
+      margin-top: 28px;
+      text-align: center;
+    }
+    .join-modal__install-title {
+      margin: 0 0 14px;
+      font-weight: 700;
+      font-size: 17px;
+      color: #111;
+    }
+    .join-modal__download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 420px;
+      min-height: 56px;
+      padding: 14px 24px;
+      background: #1e46ff;
+      color: #fff;
+      font-family: 'Pretendard', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.2px;
+      border-radius: 10px;
+      border: 0;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+    .join-modal__download-btn:hover {
+      background: #1736d1;
+    }
+    .join-modal__download-btn:active { transform: translateY(1px); }
+    .join-modal__download-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+    .join-modal__install-note {
+      margin: 16px 0 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #8a8f98;
+    }
+
+    @media (max-width: 640px) {
+      .join-modal { padding: 16px; }
+      .join-modal__panel { padding: 32px 20px 28px; border-radius: 14px; }
+      .join-modal__title { font-size: 20px; }
+      .join-modal__subtitle { font-size: 14px; margin-bottom: 20px; }
+      .join-modal__cards { grid-template-columns: 1fr; gap: 14px; }
+      .join-modal__card-head { font-size: 15px; }
+      .join-modal__install { margin-top: 22px; }
+      .join-modal__install-title { font-size: 16px; }
+      .join-modal__download-btn { font-size: 16px; min-height: 52px; }
+      .join-modal__install-note { font-size: 13px; }
+      .join-modal__close { top: 10px; right: 10px; }
+    }
+
+    /* body 스크롤 잠금 */
+    body.is-modal-open { overflow: hidden; }
+
+    /* ════════════════════════════════════════
        KV SECTION
     ════════════════════════════════════════ */
     .kv-section {
       position: relative;
       width: 100%;
-      height: 1087px;
+      height: 937px;
       background: var(--c-bg-dark);
       overflow: hidden;
     }
@@ -276,19 +459,34 @@
       inset: 0;
       
     }
-    /* 파란 대각선 밴드 */
+    /* 파란 대각선 밴드 - 2560px 기준 무대에서 비례 축소 */
+    .kv-band-stage {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 2560px;
+      height: 937px;
+      pointer-events: none;
+      z-index: 2;
+      transform: translateX(-50%) scale(calc(100vw / 2560px));
+      transform-origin: top center;
+    }
+    @media (min-width: 2560px) {
+      .kv-band-stage {
+        transform: translateX(-50%) scale(1);
+      }
+    }
     .kv-band {
       position: absolute;
       width: 300%;
       height: 270px;
-      z-index: 2;
       pointer-events: none;
     }
     .kv-band--left {
       background: #1726ce;
       transform: rotate(231.96deg);
       transform-origin: center;
-      left: -200%;
+      left: -210%;
       top: 20%;
     }
     .kv-band--left-thin {
@@ -320,7 +518,7 @@
     .kv-content {
       position: absolute;
       left: 50%;
-      top: 40%;
+      top: 48%;
       transform: translate(calc(-50% - 338px), -50%);
       width: 730px;
       z-index: 10;
@@ -625,8 +823,9 @@
     }
     .step-card__img {
       width: 100%;
-      height: var(--step-card-img-height);
-      object-fit: cover;
+      height: auto;
+      aspect-ratio: 258 / 200;
+      object-fit: contain;
       border-radius: 4px;
       background: #222;
     }
@@ -670,6 +869,12 @@
       letter-spacing: -0.54px;
     }
     .step-card__desc b { font-weight: 700; }
+    .step-card__desc .step-card__link {
+      color: #469CFF;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .step-card__desc .step-card__link:hover { opacity: 0.8; }
     .step-card__note {
       font-size: 13px;
       color: #a2a1a1;
@@ -805,6 +1010,14 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .side-nav.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
     .side-nav__item {
       position: relative;
@@ -1721,7 +1934,8 @@
         background-size: cover;
         background-position: center top;
       }
-      .kv-band { display: none; }
+      .kv-band,
+      .kv-band-stage { display: none; }
       .kv-content {
         position: relative;
         left: auto; top: auto;
@@ -1974,7 +2188,7 @@
   </header>
 
   <!-- 사이드 플로팅 네비 -->
-  <nav class="side-nav" id="sideNav" aria-label="섹션 네비게이션">
+  <nav class="side-nav is-hidden" id="sideNav" aria-label="섹션 네비게이션">
     <button class="side-nav__item is-active" data-target="how-to-join"
       data-img-active="img/side_bar/02_how_activate.png"
       data-img-disabled="img/side_bar/02_how_disabled.png"
@@ -2005,11 +2219,13 @@
     ════════════════════════════════ -->
     <section class="kv-section" id="kv" aria-label="메인 비주얼">
       <div class="kv-bg"></div>
-      <!-- 파란 대각선 밴드 -->
-      <div class="kv-band kv-band--left" aria-hidden="true"></div>
-      <div class="kv-band kv-band--left-thin" aria-hidden="true"></div>
-      <div class="kv-band kv-band--right" aria-hidden="true"></div>
-      <div class="kv-band kv-band--right-thin" aria-hidden="true"></div>
+      <!-- 파란 대각선 밴드 (2560px 기준 무대에서 뷰포트에 맞춰 비례 축소) -->
+      <div class="kv-band-stage" aria-hidden="true">
+        <div class="kv-band kv-band--left"></div>
+        <div class="kv-band kv-band--left-thin"></div>
+        <div class="kv-band kv-band--right"></div>
+        <div class="kv-band kv-band--right-thin"></div>
+      </div>
 
       <div class="kv-content">
         <!-- 로고 -->
@@ -2074,7 +2290,7 @@
                 <h3 class="step-center__title">OTP 코드 발급하기!</h3>
                 <p class="step-center__sub">스팀 또는 카카오 배틀그라운드에 접속해서 OTP 코드를 확인해주세요.</p>
                 <!-- [BACKEND] OTP 발급 방법 링크: otp_guide_url -->
-                <a href="#" class="step-center__btn" aria-label="OTP 코드 발급 방법 자세히 보기">
+                <a href="https://blog.naver.com/playcraftbox/224105065552" target="_blank" rel="noopener noreferrer" class="step-center__btn" aria-label="OTP 코드 발급 방법 자세히 보기">
                   <span>OTP 코드 발급 방법</span>
                   <span>자세히 보기 ↗</span>
                 </a>
@@ -2157,7 +2373,7 @@
                       <div class="step-card">
                         <div class="step-card__img-wrap">
                           <!-- [BACKEND] 이미지: step2_pc_screenshot_1 -->
-                          <img class="step-card__img" src="https://www.figma.com/api/mcp/asset/3421f61c-f571-4f29-8e9f-2deced0a05b7" alt="PC방 바탕화면 버튼" loading="lazy" />
+                          <img class="step-card__img" src="img/img_STEP2_01.png" alt="PC방 바탕화면 버튼" loading="lazy" />
                         </div>
                         <div class="step-card__num-wrap">
                           <div class="step-card__num">1</div>
@@ -2210,7 +2426,7 @@
                         </div>
                         <div class="step-card__num-wrap">
                           <div class="step-card__num">1</div>
-                          <p class="step-card__desc">크래프트박스 설치 후 <b>[배그 랭킹전]</b> 접속</p>
+                          <p class="step-card__desc"><a href="https://www.craftbox.co.kr/" target="_blank" rel="noopener noreferrer" class="step-card__link">크래프트박스 설치</a> 후 <b>[배그 랭킹전]</b> 접속</p>
                         </div>
                       </div>
                       <span class="step-arrow" aria-hidden="true">›</span>
@@ -2298,7 +2514,7 @@
                 <p class="prize-card__gift-desc">PUBGx프렌즈 중형인형 춘식이<br />+ 로지텍 마우스 + 로지텍 마우스패드</p>
                 <div class="prize-card__img-wrap">
                   <!-- [BACKEND] 경품 이미지: prize_2nd_char_img, prize_2nd_gift_img -->
-                  <img class="prize-card__gift-img" src="img/1RD_GIFT.png" alt="2등 경품" loading="lazy" />
+                  <img class="prize-card__gift-img" src="img/2RD_GIFT.png" alt="2등 경품" loading="lazy" />
                 </div>
               </div>
               <!-- 3등 -->
@@ -2312,7 +2528,7 @@
                 <p class="prize-card__gift-desc">PUBGx프렌즈 중형인형 춘식이<br />+ 로지텍 마우스 + 로지텍 마우스패드</p>
                 <div class="prize-card__img-wrap">
                   <!-- [BACKEND] 경품 이미지: prize_3rd_char_img, prize_3rd_gift_img -->
-                  <img class="prize-card__gift-img" src="img/1RD_GIFT.png" alt="3등 경품" loading="lazy" />
+                  <img class="prize-card__gift-img" src="img/3RD_GIFT.png" alt="3등 경품" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -2637,6 +2853,72 @@
   </main>
 
   <div id="copyToast" class="copy-toast" role="status" aria-live="polite">클립보드에 복사되었습니다.</div>
+
+  <!-- ═══════════════════════════════
+       JOIN MODAL (참여하기 모달)
+       [BACKEND] 크래프트박스 다운로드 링크: craftbox_download_url
+  ════════════════════════════════ -->
+  <div class="join-modal" id="joinModal" role="dialog" aria-modal="true" aria-labelledby="joinModalTitle" aria-hidden="true" hidden>
+    <div class="join-modal__backdrop" data-modal-close></div>
+    <div class="join-modal__panel" role="document">
+      <button type="button" class="join-modal__close" id="joinModalClose" aria-label="모달 닫기" data-modal-close>
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <h2 class="join-modal__title" id="joinModalTitle">배그 랭킹전 참여하기</h2>
+      <p class="join-modal__subtitle">크래프트박스를 실행하여 이벤트에 참여해주세요!</p>
+
+      <div class="join-modal__cards">
+        <div class="join-modal__card">
+          <div class="join-modal__card-head">
+            <span class="join-modal__card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L21 7V17L12 22L3 17V7L12 2Z" fill="#1e46ff" stroke="#0f2fc9" stroke-width="1.2" stroke-linejoin="round"/>
+                <path d="M12 12L21 7M12 12L3 7M12 12V22" stroke="#0f2fc9" stroke-width="1.2" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="join-modal__card-title">피카 PC방 화면</span>
+          </div>
+          <div class="join-modal__card-img-wrap">
+            <img src="img/pica_img.png" alt="피카 PC방 화면에서 크래프트박스 아이콘 클릭 안내" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="join-modal__card">
+          <div class="join-modal__card-head">
+            <span class="join-modal__card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 2L21 7V17L12 22L3 17V7L12 2Z" fill="#1e46ff" stroke="#0f2fc9" stroke-width="1.2" stroke-linejoin="round"/>
+                <path d="M12 12L21 7M12 12L3 7M12 12V22" stroke="#0f2fc9" stroke-width="1.2" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="join-modal__card-title">개인 PC방 크래프트박스 실행</span>
+          </div>
+          <div class="join-modal__card-img-wrap">
+            <img src="img/home_pc_img.png" alt="개인 PC 바탕화면 또는 작업표시줄에서 크래프트박스 실행 안내" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="join-modal__install">
+        <p class="join-modal__install-title">아직 설치하지 않으셨나요?</p>
+        <!-- [BACKEND] href 교체: craftbox_download_url -->
+        <a href="https://www.craftbox.co.kr/" class="join-modal__download-btn" id="btnCraftboxDownload" target="_blank" rel="noopener noreferrer">
+          <span>크래프트박스 다운로드하기</span>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3V15M12 15L7 10M12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 18V20C4 20.5523 4.44772 21 5 21H19C19.5523 21 20 20.5523 20 20V18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <p class="join-modal__install-note">
+          크래프트박스가 이미 설치되어 있다면,<br />
+          바탕화면 아이콘 클릭하여 실행해주세요
+        </p>
+      </div>
+    </div>
+  </div>
   <div class="mobile-fab" aria-label="모바일 플로팅 버튼">
     <button class="mobile-fab__btn" type="button" id="btnShareFloating" aria-label="공유하기">
       <img src="https://www.figma.com/api/mcp/asset/62a2d3e1-45b0-44e2-bc87-17b0fb5b36a6" alt="" aria-hidden="true" loading="lazy" />
@@ -2821,6 +3103,7 @@
     // ── 사이드 네비 active 스크롤 감지 ──
     var sections = ['how-to-join', 'rewards', 'new-player-event', 'winner-rewards'];
     var navItems = document.querySelectorAll('.side-nav__item[data-target]');
+    var sideNavEl = document.getElementById('sideNav');
     function updateSideNav() {
       var scrollY = window.pageYOffset + 200;
       var current = sections[0];
@@ -2835,6 +3118,18 @@
           item.classList.remove('is-active');
         }
       });
+      // how-to-join 섹션에 도달하기 전에는 사이드 네비 숨김
+      if (sideNavEl) {
+        var howToJoinEl = document.getElementById('how-to-join');
+        if (howToJoinEl) {
+          var triggerY = howToJoinEl.offsetTop - window.innerHeight * 0.5;
+          if (window.pageYOffset >= triggerY) {
+            sideNavEl.classList.remove('is-hidden');
+          } else {
+            sideNavEl.classList.add('is-hidden');
+          }
+        }
+      }
       refreshSideNavImages();
     }
     window.addEventListener('scroll', updateSideNav, { passive: true });
@@ -2890,6 +3185,61 @@
     if (btnTopFloating) {
       btnTopFloating.addEventListener('click', scrollToTop);
     }
+
+    // ── 참여하기 모달 ──
+    var joinModal = document.getElementById('joinModal');
+    var btnJoin = document.getElementById('btnJoin');
+    var lastFocusedBeforeModal = null;
+
+    function openJoinModal() {
+      if (!joinModal) { return; }
+      lastFocusedBeforeModal = document.activeElement;
+      joinModal.hidden = false;
+      joinModal.setAttribute('aria-hidden', 'false');
+      // 다음 프레임에 클래스를 붙여 트랜지션 적용
+      requestAnimationFrame(function() {
+        joinModal.classList.add('is-open');
+      });
+      document.body.classList.add('is-modal-open');
+      var closeBtn = document.getElementById('joinModalClose');
+      if (closeBtn) { closeBtn.focus(); }
+    }
+
+    function closeJoinModal() {
+      if (!joinModal) { return; }
+      joinModal.classList.remove('is-open');
+      joinModal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('is-modal-open');
+      setTimeout(function() {
+        joinModal.hidden = true;
+        if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+          lastFocusedBeforeModal.focus();
+        }
+      }, 220);
+    }
+
+    if (btnJoin) {
+      btnJoin.addEventListener('click', function(e) {
+        // [BACKEND] join_url이 설정되면 아래 한 줄을 제거하고 실제 링크로 이동하도록 처리
+        e.preventDefault();
+        openJoinModal();
+      });
+    }
+
+    if (joinModal) {
+      joinModal.addEventListener('click', function(e) {
+        var target = e.target;
+        if (target && target.closest && target.closest('[data-modal-close]')) {
+          closeJoinModal();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && joinModal && joinModal.classList.contains('is-open')) {
+        closeJoinModal();
+      }
+    });
 
     // ── IntersectionObserver 페이드인 ──
     var fadeEls = document.querySelectorAll('.fade-up');
