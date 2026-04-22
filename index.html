@@ -1003,6 +1003,92 @@
       text-align: center;
       line-height: 1.5;
     }
+    /* 툴팁이 있는 카드는 overflow 해제해서 말풍선이 잘리지 않도록 함 */
+    .prize-card:has(.prize-tooltip-wrap) { overflow: visible; }
+    /* 툴팁 hover/focus 시 카드 자체를 최상단으로 끌어올려 탭·인접 카드 위에 표시 */
+    .prize-card:has(.prize-tooltip-wrap:hover),
+    .prize-card:has(.prize-tooltip-wrap:focus-visible) {
+      z-index: 100;
+    }
+    .prize-tooltip-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 4px;
+      vertical-align: middle;
+      cursor: help;
+      outline: none;
+    }
+    .prize-tooltip-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--c-white);
+      color: #1e1e1e;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .prize-tooltip-wrap:hover .prize-tooltip-icon,
+    .prize-tooltip-wrap:focus-visible .prize-tooltip-icon {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 3px rgba(255, 207, 64, 0.25);
+    }
+    .prize-tooltip {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      width: max-content;
+      max-width: 320px;
+      padding: 12px 14px;
+      background: #111;
+      border: 1px solid var(--c-gold-bright);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.55;
+      text-align: left;
+      white-space: normal;
+      word-break: keep-all;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.15s ease, visibility 0.15s ease, transform 0.15s ease;
+      z-index: 100;
+    }
+    .prize-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--c-gold-bright);
+    }
+    .prize-tooltip__item {
+      display: block;
+      padding: 4px 0;
+    }
+    .prize-tooltip__item + .prize-tooltip__item {
+      border-top: 1px dashed rgba(255, 255, 255, 0.14);
+    }
+    .prize-tooltip-wrap:hover .prize-tooltip,
+    .prize-tooltip-wrap:focus-visible .prize-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
     .prize-card__img-wrap {
       position: relative;
       width: 100%;
@@ -1017,8 +1103,8 @@
       object-fit: cover;
     }
     .prize-card__gift-img {
-      width: 212px;
-      height: 218px;
+      
+      
       max-width: 100%;
       border-radius: 8px;
       object-fit: contain;
@@ -1229,7 +1315,7 @@
       padding: 8px 20px 8px 30px;
       box-sizing: border-box;
       overflow: hidden;
-      background: linear-gradient(76.4deg, #FFEA00 53%, #FFD942 65%, #FF6026 76%, #D70CE9 83%, #3047FF 91%, #109BFF 97%);
+      background: linear-gradient(90deg, #ffae00 0%, #ffae00 25%, #ffae00 55%, #f017c8 82%, #3a78ff 100%);
     }
     .rewards-banner.fade-up {
       transition-delay: 0.3s;
@@ -1299,17 +1385,23 @@
       margin: 0;
       font-family: '격동고딕', sans-serif;
       font-size: 20px;
-      color: #2c2c2c;
+      color: #000000;
       line-height: 1.3;
-      font-weight:700
-
+      letter-spacing: -1px;
+      
+      font-weight: 700;
     }
-    .rewards-banner__txt-main .t-dark { color: #373700; font-size: 24px; }
+    .rewards-banner__txt-main .t-dark {
+      color: #000000;
+      font-size: 24px;
+      font-weight: 800;
+      
+    }
     .rewards-banner__txt-sub {
       margin: 10px 0 0;
       font-family: 'Pretendard', sans-serif;
       font-size: 15px;
-      color: rgba(42,33,29,0.7);
+      color: rgba(0, 0, 0, 0.82);
       line-height: 1.4;
     }
 
@@ -1426,21 +1518,90 @@
     /* 로지텍 배너 */
     /* [BACKEND] 로지텍 경품 배너 영역 - 백엔드에서 이미지/링크 교체 필요: logitech_banner_img, logitech_banner_url */
     .logitech-banner {
-      background: var(--c-red);
-      height: 129px;
+      position: relative;
+      background: #0d0d10 url('img/logitech_banner_bg.png') center/cover no-repeat;
+      min-height: 129px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 18px 28px;
+      box-sizing: border-box;
+      overflow: hidden;
+      cursor: pointer;
+      transition: filter 0.2s;
+    }
+    .logitech-banner:hover { filter: brightness(1.1); }
+    .logitech-banner:focus-visible {
+      outline: 2px solid #2563ff;
+      outline-offset: 2px;
+    }
+    /* 섹션별 분리 스타일 훅 — 각 배너를 독립적으로 커스터마이즈 가능 */
+    /* NEW PLAYER EVENT 섹션 전용 오버라이드는 .logitech-banner--npe { ... } 에 추가 */
+    /* WINNER REWARDS 섹션 전용 오버라이드는 .logitech-banner--wr { ... } 에 추가 */
+    .logitech-banner__content {
+      flex: 1 1 auto;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 1;
+    }
+    .logitech-banner__text-sub {
+      margin: 0;
+      font-family: 'Pretendard', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      color: #ffffff;
+      line-height: 1.35;
+      letter-spacing: -0.2px;
+      word-break: keep-all;
+    }
+    .logitech-banner__text-sub .t-accent {
+      color: #ffd93d;
+      font-weight: 700;
+    }
+    .logitech-banner__text-main {
+      margin: 0;
+      font-family: '격동고딕', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      word-break: keep-all;
+    }
+    .logitech-banner__media {
+      flex: 0 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: filter 0.2s;
-      min-height: 44px;
+      align-self: stretch;
+      /* 이미지가 배너 세로 전체(패딩 포함)를 채우도록 패딩 상쇄 */
+      margin-top: -18px;
+      margin-bottom: -18px;
+      z-index: 1;
     }
-    .logitech-banner:hover { filter: brightness(1.1); }
-    .logitech-banner__text {
-      font-family: '격동고딕', sans-serif;
-      font-size: 22px;
-      color: #000;
-      letter-spacing: -0.44px;
+    .logitech-banner__product {
+      display: block;
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      object-fit: contain;
+    }
+    .logitech-banner__brand {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      align-self: stretch;
+      padding: 4px 0;
+      z-index: 1;
+    }
+    .logitech-banner__logo {
+      display: block;
+      height: 22px;
+      width: auto;
     }
     .npe-notice {
       margin-top: 20px;
@@ -1944,6 +2105,20 @@
       }
       .rewards-banner__txt-main .t-dark { font-size: 22px; }
       .rewards-banner__txt-sub { font-size: 14px; }
+
+      /* 로지텍 배너 — 태블릿 */
+      .logitech-banner {
+        gap: 16px;
+        padding: 14px 20px;
+        min-height: 108px;
+      }
+      .logitech-banner__text-sub { font-size: 15px; }
+      .logitech-banner__text-main { font-size: 20px; }
+      .logitech-banner__media {
+        margin-top: -14px;
+        margin-bottom: -14px;
+      }
+      .logitech-banner__logo { height: 18px; }
     }
     /* ── 480px 이하 ── */
     @media (max-width: 480px) {
@@ -1976,6 +2151,20 @@
       .rewards-banner__txt-sub { text-align: center; }
       .rewards-banner__txt-main { font-size: 16px; }
       .rewards-banner__txt-main .t-dark { font-size: 20px; }
+
+      /* 로지텍 배너 — 모바일 */
+      .logitech-banner {
+        gap: 12px;
+        padding: 12px 14px;
+        min-height: 88px;
+      }
+      .logitech-banner__media {
+        margin-top: -12px;
+        margin-bottom: -12px;
+      }
+      .logitech-banner__text-sub { font-size: 13px; }
+      .logitech-banner__text-main { font-size: 18px; line-height: 1.25; }
+      .logitech-banner__logo { height: 14px; }
     }
   </style>
 </head>
@@ -2144,7 +2333,7 @@
                   <div class="step-card">
                     <div class="step-card__img-wrap">
                       <!-- [BACKEND] 이미지 경로: step1_screenshot_3 -->
-                      <img class="step-card__img" src="img/img_01_step2_03.png" alt="이벤트 센터 OTP 생성" loading="lazy" />
+                      <img class="step-card__img" src="img/img_STEP_03.png" alt="이벤트 센터 OTP 생성" loading="lazy" />
                     </div>
                     <div class="step-card__num-wrap">
                       <div class="step-card__num">3</div>
@@ -2217,7 +2406,7 @@
                       <div class="step-card">
                         <div class="step-card__img-wrap">
                           <!-- [BACKEND] 이미지: step2_pc_screenshot_3 -->
-                          <img class="step-card__img" src="img/img_01_step2_03.png" alt="OTP 코드 입력" loading="lazy" />
+                          <img class="step-card__img" src="img/img_STEP_03.png" alt="OTP 코드 입력" loading="lazy" />
                         </div>
                         <div class="step-card__num-wrap">
                           <div class="step-card__num">3</div>
@@ -2263,7 +2452,7 @@
                     <div class="step-card-wrap">
                       <div class="step-card">
                         <div class="step-card__img-wrap">
-                          <img class="step-card__img" src="img/img_01_step2_03.png" alt="OTP 코드 입력" loading="lazy" />
+                          <img class="step-card__img" src="img/img_STEP_03.png" alt="OTP 코드 입력" loading="lazy" />
                         </div>
                         <div class="step-card__num-wrap">
                           <div class="step-card__num">3</div>
@@ -2314,7 +2503,17 @@
                   <!-- [BACKEND] 코인 아이콘: coin_icon_img -->
                   <img class="prize-card__coin" src="https://www.figma.com/api/mcp/asset/15c86ad7-8dc0-48dc-a005-f4fc6faf4e94" alt="마일리지 코인" loading="lazy" />
                 </div>
-                <p class="prize-card__gift-desc">PUBGx프렌즈 중형인형_춘식이<br />+ 로지텍 마우스 + 로지텍 마우스패드</p>
+                <p class="prize-card__gift-desc">PUBGx프렌즈 중형인형_춘식이<br />+ 로지텍 게이밍 풀세트
+                  <span class="prize-tooltip-wrap" tabindex="0" aria-label="로지텍 게이밍 풀세트 구성 안내">
+                    <span class="prize-tooltip-icon" aria-hidden="true">?</span>
+                    <span class="prize-tooltip" role="tooltip">
+                      <span class="prize-tooltip__item">로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스</span>
+                      <span class="prize-tooltip__item">로지텍 PRO X TKL RAPID 래피드 트리거 유선 텐키리스 게이밍 키보드</span>
+                      <span class="prize-tooltip__item">로지텍 A20X LIGHTSPEED PLAYSYNC AUDIO 무선 게이밍 헤드셋</span>
+                      <span class="prize-tooltip__item">로지텍 POWERPLAY 2 마우스패드</span>
+                    </span>
+                  </span>
+                </p>
                 <div class="prize-card__img-wrap">
                   <!-- [BACKEND] 경품 이미지: prize_1st_char_img, prize_1st_gift_img -->
                   <img class="prize-card__gift-img" src="img/1RD_GIFT.png" alt="1등 경품" loading="lazy" />
@@ -2328,7 +2527,16 @@
                   <span class="prize-card__amount-num">100,000</span>
                   <img class="prize-card__coin" src="https://www.figma.com/api/mcp/asset/15c86ad7-8dc0-48dc-a005-f4fc6faf4e94" alt="마일리지 코인" loading="lazy" />
                 </div>
-                <p class="prize-card__gift-desc">PUBGx프렌즈 중형인형_춘식이<br />+ 로지텍 마우스 + 로지텍 마우스패드</p>
+                <p class="prize-card__gift-desc">PUBGx프렌즈 중형인형_춘식이<br />+ 로지텍 게이밍 세트
+                  <span class="prize-tooltip-wrap" tabindex="0" aria-label="로지텍 게이밍 세트 구성 안내">
+                    <span class="prize-tooltip-icon" aria-hidden="true">?</span>
+                    <span class="prize-tooltip" role="tooltip">
+                      <span class="prize-tooltip__item">로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스</span>
+                      <span class="prize-tooltip__item">로지텍 PRO X TKL RAPID 래피드 트리거 유선 텐키리스 게이밍 키보드</span>
+                      <span class="prize-tooltip__item">로지텍 POWERPLAY 2 마우스패드</span>
+                    </span>
+                  </span>
+                </p>
                 <div class="prize-card__img-wrap">
                   <!-- [BACKEND] 경품 이미지: prize_2nd_char_img, prize_2nd_gift_img -->
                   <img class="prize-card__gift-img" src="img/2RD_GIFT.png" alt="2등 경품" loading="lazy" />
@@ -2342,7 +2550,15 @@
                   <span class="prize-card__amount-num">50,000</span>
                   <img class="prize-card__coin" src="https://www.figma.com/api/mcp/asset/15c86ad7-8dc0-48dc-a005-f4fc6faf4e94" alt="마일리지 코인" loading="lazy" />
                 </div>
-                <p class="prize-card__gift-desc">PUBGx프렌즈 중형인형_춘식이<br />+ 로지텍 마우스 + 로지텍 마우스패드</p>
+                <p class="prize-card__gift-desc">PUBGx프렌즈 중형인형_춘식이<br />+ 로지텍 게이밍 세트
+                  <span class="prize-tooltip-wrap" tabindex="0" aria-label="로지텍 게이밍 세트 구성 안내">
+                    <span class="prize-tooltip-icon" aria-hidden="true">?</span>
+                    <span class="prize-tooltip" role="tooltip">
+                      <span class="prize-tooltip__item">로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스</span>
+                      <span class="prize-tooltip__item">로지텍 POWERPLAY 2 마우스패드</span>
+                    </span>
+                  </span>
+                </p>
                 <div class="prize-card__img-wrap">
                   <!-- [BACKEND] 경품 이미지: prize_3rd_char_img, prize_3rd_gift_img -->
                   <img class="prize-card__gift-img" src="img/3RD_GIFT.png" alt="3등 경품" loading="lazy" />
@@ -2513,13 +2729,13 @@
             </div>
             <div class="rewards-banner__txt">
               <!-- [BACKEND] 배너 메인 텍스트: tip_banner_main_text -->
-              <p class="rewards-banner__txt-main">크래프트박스 도전과제 달성 시 <span class="t-dark">최대 50,000 마일리지</span> 추가 획득!</p>
-              <p class="rewards-banner__txt-sub">크래프트박스 내 혜택박스 → 도전과제 탭에서 배틀그라운드 도전과제를 완료 후 열쇠로 랜덤 마일리지를 획득하세요!</p>
+              <p class="rewards-banner__txt-main">PUBG 도전과제 달성 시 <span class="t-dark">최대 5만 마일리지</span> 지급 + PUBG: 벌룬패드 추첨까지!</p>
+              <p class="rewards-banner__txt-sub">크래프트박스 혜택박스 → 배틀그라운드 도전과제 완료 후 열쇠로 랜덤 마일리지 &amp; 벌룬패드를 획득하세요!</p>
             </div>
           </div>
           <div class="rewards-banner__media">
             <!-- [BACKEND] 배너 아이템 이미지: rewards_banner_item_img -->
-            <img class="rewards-banner__item-img" src="https://www.figma.com/api/mcp/asset/5bd0c158-7209-4672-accb-ca0af3ad8cf1" alt="경품 아이템" loading="lazy" />
+            <img class="rewards-banner__item-img" src="img/cbox_key.png" alt="경품 아이템" loading="lazy" />
           </div>
         </div>
       </div>
@@ -2580,8 +2796,17 @@
 
         <!-- 로지텍 경품 배너 -->
         <!-- [BACKEND] 로지텍 경품 이미지/링크 교체: logitech_banner_url, logitech_img -->
-        <div class="logitech-banner fade-up" style="transition-delay:0.2s;" role="button" tabindex="0" aria-label="로지텍 경품 안내">
-          <p class="logitech-banner__text">로지텍 경품 안내 영역</p>
+        <div class="logitech-banner logitech-banner--npe fade-up" style="transition-delay:0.2s;" role="button" tabindex="0" aria-label="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 경품 안내">
+          <div class="logitech-banner__content">
+            <p class="logitech-banner__text-sub">랭킹전 최초 참여 및 누적 생존 <span class="t-accent">60분 달성</span> 인원 중 추첨을 통해</p>
+            <p class="logitech-banner__text-main">로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 지급!</p>
+          </div>
+          <div class="logitech-banner__media">
+            <img class="logitech-banner__product" src="img/logitech_img.png" alt="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스" loading="lazy" />
+          </div>
+          <div class="logitech-banner__brand">
+            <img class="logitech-banner__logo" src="img/logitech_logo.svg" alt="Logitech" loading="lazy" />
+          </div>
         </div>
 
         <p class="npe-notice fade-up">※ 보상은 이벤트 종료 후 순차적으로 지급되며, 당첨자는 SMS를 통해 개별 안내됩니다.</p>
@@ -2634,7 +2859,7 @@
             <div class="chicken-card__body">
               <div class="chicken-card__visual">
                 <!-- [BACKEND] 경품 이미지: chicken_prize_img_2 -->
-                <img class="chicken-card__img" src="img/Rectangle 11703.png" alt="PUBG 티셔츠" loading="lazy" />
+                <img class="chicken-card__img" src="img/pubg_t.png" alt="PUBG 티셔츠" loading="lazy" />
                 <!-- [BACKEND] 경품명: chicken_prize_name_2 -->
                 <p class="chicken-card__prize">PUBG 티셔츠</p>
               </div>
@@ -2656,8 +2881,17 @@
 
         <!-- 로지텍 경품 배너 -->
         <!-- [BACKEND] 로지텍 경품 이미지/링크 교체: logitech_banner_url_2 -->
-        <div class="logitech-banner fade-up" style="transition-delay:0.3s;" role="button" tabindex="0" aria-label="로지텍 경품 안내">
-          <p class="logitech-banner__text">로지텍 경품 안내 영역</p>
+        <div class="logitech-banner logitech-banner--wr fade-up" style="transition-delay:0.3s;" role="button" tabindex="0" aria-label="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 경품 안내">
+          <div class="logitech-banner__content">
+            <p class="logitech-banner__text-sub">누적 치킨 달성 <span class="t-accent">1~3회 달성</span> 인원 중 추첨을 통해</p>
+            <p class="logitech-banner__text-main">로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 지급!</p>
+          </div>
+          <div class="logitech-banner__media">
+            <img class="logitech-banner__product" src="img/logitech_img.png" alt="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스" loading="lazy" />
+          </div>
+          <div class="logitech-banner__brand">
+            <img class="logitech-banner__logo" src="img/logitech_logo.svg" alt="Logitech" loading="lazy" />
+          </div>
         </div>
 
         <div class="wr-notice fade-up">
