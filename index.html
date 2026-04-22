@@ -1523,11 +1523,11 @@
     .logitech-banner {
       position: relative;
       background: #0d0d10 url('img/logitech_banner_bg.png') center/cover no-repeat;
-      min-height: 129px;
+      min-height: 96px;
       display: flex;
       align-items: center;
-      gap: 24px;
-      padding: 18px 28px;
+      gap: 20px;
+      padding: 22px 24px;
       box-sizing: border-box;
       overflow: hidden;
       cursor: pointer;
@@ -1550,6 +1550,26 @@
       text-align: center;
       gap: 6px;
       z-index: 1;
+    }
+    .logitech-banner__badge {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 18px 7px;
+      background: linear-gradient(135deg, #ff3d3d 0%, #ff8a1f 100%);
+      border-radius: 999px;
+      box-shadow:
+        0 2px 8px rgba(255, 72, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      font-family: 'Pretendard', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.2px;
+      line-height: 1;
+      white-space: nowrap;
+      margin-bottom: 4px;
     }
     .logitech-banner__text-sub {
       margin: 0;
@@ -1584,26 +1604,31 @@
       justify-content: center;
       align-self: stretch;
       /* 이미지가 배너 세로 전체(패딩 포함)를 채우도록 패딩 상쇄 */
-      margin-top: -18px;
-      margin-bottom: -18px;
+      margin-top: -12px;
+      margin-bottom: -12px;
+      overflow: visible;              /* 확대된 이미지가 배너 바운더리까지 확장 */
       z-index: 1;
+      height: 140px;
     }
     .logitech-banner__product {
       display: block;
-      height: 100%;
+      height: 190%;                   /* 박스(129px)보다 크게 → overflow:hidden으로 잘림 */
       width: auto;
-      max-width: 100%;
+      max-width: none;
       object-fit: contain;
+      pointer-events: none;           /* 잘린 영역이 클릭 방해하지 않도록 */
     }
+    /* 로고는 배너 우측 상단 고정 */
     .logitech-banner__brand {
-      flex: 0 0 auto;
+      position: absolute;
+      top: 10px;
+      right: 16px;
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      justify-content: center;
-      align-self: stretch;
-      padding: 4px 0;
-      z-index: 1;
+      justify-content: flex-start;
+      padding: 0;
+      z-index: 3;
     }
     .logitech-banner__logo {
       display: block;
@@ -1743,7 +1768,7 @@
     }
     .chicken-card__title b { font-weight: 900; }
     .chicken-card__desc {
-      font-size: 15px;
+      font-size: 20px;
       color: #000000;
       line-height: 1.45;
       margin: 0;
@@ -1862,6 +1887,12 @@
       .chicken-card__title { font-size: 32px; }
       .chicken-card__prize { font-size: 26px; }
 
+      /* 이벤트 카드 설명 — 1280 이하에서 2줄 유지되도록 폰트 축소 */
+      .event-card__desc {
+        font-size: 16px;
+        line-height: 1.45;
+      }
+
       /* 로지텍 배너 — 768~1280 포함 ≤1280 범위 (모바일 ≤480은 아래에서 재정의) */
       .logitech-banner {
         gap: 14px;
@@ -1872,7 +1903,7 @@
         flex: 1 1 0;          /* 텍스트 영역에 남는 공간 우선 분배 */
         min-width: 0;
       }
-      .logitech-banner__text-sub { font-size: 16px; }
+      .logitech-banner__text-sub { font-size: 23px; }
       .logitech-banner__text-main { font-size: 22px; line-height: 1.2; }
       /* 로고는 배너 우측 상단 고정 — 제품 이미지가 로고와 겹쳐도 됨 */
       .logitech-banner__brand {
@@ -2056,15 +2087,21 @@
       .chicken-card__badge {
         min-width: 0;
         white-space: normal;
-        text-align: left;
-        justify-content: flex-start;
-        align-self: flex-start;
-        
+        text-align: center;
+        justify-content: center;
+        align-self: center;
       }
       .chicken-card__body-row {
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
+        text-align: center;
         gap: 10px;
+      }
+      .chicken-card__info {
+        text-align: center;
+      }
+      .chicken-card__desc {
+        text-align: center;
       }
       .chicken-card__img {
         width: auto;
@@ -2082,7 +2119,7 @@
         white-space: normal;
       }
       .chicken-card__desc {
-        font-size: 14px;
+        font-size: 20px;
         line-height: 1.5;
       }
       .chicken-card__prize {
@@ -2253,7 +2290,7 @@
         flex-direction: column;
         align-items: stretch;
         gap: 18px;
-        padding: 14px 16px 28px;
+        padding: 28px 16px 28px;
         min-height: 0;
       }
       /* 시각적 순서: 로고(상단 중앙) → 텍스트(전체 폭) → 마우스 이미지(하단 중앙) */
@@ -2294,7 +2331,7 @@
         justify-content: center;
       }
       .logitech-banner__product {
-        height: 100%;
+        height: 340%;
         width: auto;
         max-width: 100%;
         transform: none;                /* 1280px 구간의 확대 해제 */
@@ -2933,11 +2970,12 @@
         <!-- [BACKEND] 로지텍 경품 이미지/링크 교체: logitech_banner_url, logitech_img -->
         <div class="logitech-banner logitech-banner--npe fade-up" style="transition-delay:0.2s;" role="button" tabindex="0" aria-label="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 경품 안내">
           <div class="logitech-banner__content">
+            <span class="logitech-banner__badge">추첨 1명 지급!</span>
             <p class="logitech-banner__text-sub">랭킹전 최초 참여 및 누적 생존 <span class="t-accent">60분 달성</span> 인원 중 추첨을 통해</p>
             <p class="logitech-banner__text-main">로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 지급!</p>
           </div>
           <div class="logitech-banner__media">
-            <img class="logitech-banner__product" src="img/logitech_img.png" alt="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스" loading="lazy" />
+            <img class="logitech-banner__product" src="img/mouse_img.png" alt="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스" loading="lazy" />
           </div>
           <div class="logitech-banner__brand">
             <img class="logitech-banner__logo" src="img/logitech_logo.svg" alt="Logitech" loading="lazy" />
@@ -3018,11 +3056,12 @@
         <!-- [BACKEND] 로지텍 경품 이미지/링크 교체: logitech_banner_url_2 -->
         <div class="logitech-banner logitech-banner--wr fade-up" style="transition-delay:0.3s;" role="button" tabindex="0" aria-label="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 경품 안내">
           <div class="logitech-banner__content">
+            <span class="logitech-banner__badge">추첨 1명 지급!</span>
             <p class="logitech-banner__text-sub">누적 치킨 달성<br class="br-mobile" /> <span class="t-accent">1~3회 달성</span> 인원 중 추첨을 통해</p>
             <p class="logitech-banner__text-main">로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 지급!</p>
           </div>
           <div class="logitech-banner__media">
-            <img class="logitech-banner__product" src="img/logitech_img.png" alt="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스" loading="lazy" />
+            <img class="logitech-banner__product" src="img/mouse_img.png" alt="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스" loading="lazy" />
           </div>
           <div class="logitech-banner__brand">
             <img class="logitech-banner__logo" src="img/logitech_logo.svg" alt="Logitech" loading="lazy" />
