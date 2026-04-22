@@ -692,6 +692,9 @@
       text-underline-offset: 2px;
     }
     .step-card__desc .step-card__link:hover { opacity: 0.8; }
+    /* 반응형 줄바꿈 유틸 */
+    .br-mobile { display: none; }   /* 모바일 최소 사이즈에서만 표시 */
+    .br-pc { display: inline; }     /* 데스크톱·태블릿에서만 표시 */
     .step-card__note {
       font-size: 13px;
       color: #a2a1a1;
@@ -1504,7 +1507,7 @@
     .event-card__amount {
       font-family: '격동고딕', sans-serif;
       font-size: 44px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: -0.88px;
     }
     .event-card__amount--blue { color: var(--c-blue); }
@@ -1543,6 +1546,8 @@
       min-width: 0;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
       gap: 6px;
       z-index: 1;
     }
@@ -1554,6 +1559,7 @@
       color: #ffffff;
       line-height: 1.35;
       letter-spacing: -0.2px;
+      text-align: center;
       word-break: keep-all;
     }
     .logitech-banner__text-sub .t-accent {
@@ -1568,6 +1574,7 @@
       color: #ffffff;
       line-height: 1.15;
       letter-spacing: -0.5px;
+      text-align: center;
       word-break: keep-all;
     }
     .logitech-banner__media {
@@ -1854,6 +1861,44 @@
       }
       .chicken-card__title { font-size: 32px; }
       .chicken-card__prize { font-size: 26px; }
+
+      /* 로지텍 배너 — 768~1280 포함 ≤1280 범위 (모바일 ≤480은 아래에서 재정의) */
+      .logitech-banner {
+        gap: 14px;
+        padding: 14px 20px;
+        min-height: 108px;
+      }
+      .logitech-banner__content {
+        flex: 1 1 0;          /* 텍스트 영역에 남는 공간 우선 분배 */
+        min-width: 0;
+      }
+      .logitech-banner__text-sub { font-size: 16px; }
+      .logitech-banner__text-main { font-size: 22px; line-height: 1.2; }
+      /* 로고는 배너 우측 상단 고정 — 제품 이미지가 로고와 겹쳐도 됨 */
+      .logitech-banner__brand {
+        position: absolute;
+        top: 10px;
+        right: 16px;
+        align-self: auto;
+        padding: 0;
+        z-index: 3;
+      }
+      .logitech-banner__logo { height: 18px; }
+      /* 미디어 컨테이너 크기는 유지, 이미지만 확대해 텍스트 영역으로 침범 */
+      .logitech-banner__media {
+        margin-top: 0;
+        margin-bottom: 0;
+        overflow: visible;    /* 확대된 이미지가 컨테이너 밖으로 보이도록 */
+        z-index: 2;
+      }
+      .logitech-banner__product {
+        height: 100%;
+        width: auto;
+        max-width: 140px;
+        transform: scale(1.5);
+        transform-origin: right center;   /* 왼쪽(텍스트 쪽)으로 확대 */
+        pointer-events: none;             /* 확대 영역이 텍스트 클릭 방해 않도록 */
+      }
     }
     @media (min-width: 785px) and (max-width: 1280px) {
       .step-tab-cards-box {
@@ -1895,11 +1940,16 @@
         min-width: 0;
         gap: 12px;
       }
+      /* 모바일에서는 PC방 토글 버튼(이미지 포함) 숨기고 공지 텍스트가 그 영역까지 좌측 정렬로 확장 */
+      .toggle-btn { display: none; }
       .cb-header__notice {
         white-space: normal;
         word-break: keep-all;
         font-size: 14px;
         line-height: 1.45;
+        text-align: left;
+        flex: 1;
+        min-width: 0;
       }
       .btn-share { display: none; }
       .mobile-fab { display: flex; }
@@ -1919,7 +1969,7 @@
         left: auto; top: auto;
         transform: none;
         width: 100%;
-        padding: 40px 24px 30px;
+        padding: 10px 24px 30px;
         height: 100%;
         min-height: 100%;
         box-sizing: border-box;
@@ -1968,8 +2018,8 @@
         margin: 0 auto 20px;
         max-width: min(100%, 320px);
         min-height: 44px;
-        padding: 8px 14px;
-        font-size: 14px;
+        padding: 8px 8px;
+        font-size: 13px;
       }
       #contentPcRoom .badge-pc,
       #contentPersonal .badge-pc {
@@ -2009,7 +2059,7 @@
         text-align: left;
         justify-content: flex-start;
         align-self: flex-start;
-        padding: 6px 22px 8px;
+        
       }
       .chicken-card__body-row {
         flex-direction: column;
@@ -2104,21 +2154,8 @@
         font-size: 18px;
       }
       .rewards-banner__txt-main .t-dark { font-size: 22px; }
-      .rewards-banner__txt-sub { font-size: 14px; }
+      .rewards-banner__txt-sub { font-size: 18px; }
 
-      /* 로지텍 배너 — 태블릿 */
-      .logitech-banner {
-        gap: 16px;
-        padding: 14px 20px;
-        min-height: 108px;
-      }
-      .logitech-banner__text-sub { font-size: 15px; }
-      .logitech-banner__text-main { font-size: 20px; }
-      .logitech-banner__media {
-        margin-top: -14px;
-        margin-bottom: -14px;
-      }
-      .logitech-banner__logo { height: 18px; }
     }
     /* ── 480px 이하 ── */
     @media (max-width: 480px) {
@@ -2126,6 +2163,7 @@
       .kv-sub-title { font-size: 28px; }
       .kv-subtitle { font-size: 16px; letter-spacing: 2px; }
       .kv-date { font-size: 14px; }
+      .kv-logos img { height: 36px; }
       .htj-title__main .t-gold { font-size: 32px; }
       .htj-title__main .t-white { font-size: 26px; }
       .npe-title__img { max-width: min(100%, 520px); }
@@ -2149,22 +2187,120 @@
       }
       .rewards-banner__txt-main,
       .rewards-banner__txt-sub { text-align: center; }
-      .rewards-banner__txt-main { font-size: 16px; }
+      .rewards-banner__txt-main { font-size: 22px; }
       .rewards-banner__txt-main .t-dark { font-size: 20px; }
 
-      /* 로지텍 배너 — 모바일 */
+      /* OTP 발급 방법 버튼 — 모바일 1줄 유지 */
+      .step-center__btn {
+        gap: 8px;
+        padding: 6px 14px;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+      .step-center__btn > span {
+        white-space: nowrap;
+      }
+      /* STEP / REWARDS 탭 네비 — 모바일 1줄 유지 */
+      .step-tab-btn,
+      .rewards-tab-btn {
+        font-size: 14px;
+        height: 56px;
+        padding: 0 8px;
+        white-space: nowrap;
+        word-break: keep-all;
+        letter-spacing: -0.3px;
+      }
+      
+
+
+      /* 모바일 최소 사이즈에서 줄바꿈 유틸 토글 */
+      .br-mobile { display: inline; }
+      .br-pc { display: none; }
+
+      /* 특별 보상 그룹명 — 모바일 1줄 유지 */
+      .bonus-group__name {
+        font-size: 15px;
+        white-space: nowrap;
+        word-break: keep-all;
+        letter-spacing: -0.3px;
+      }
+      /* 신규 참여 이벤트 카드 헤더 — 모바일 폰트 축소 */
+      .event-card__header,
+      .event-card__header--blue,
+      .event-card__header--orange {
+        font-size: 14px;
+      }
+
+      /* 경품 툴팁 — 모바일에서 카드 기준으로 앵커 변경해 화면 밖 잘림 방지 */
+      .prize-tooltip-wrap { position: static; }
+      .prize-tooltip {
+        top: 50%;
+        bottom: auto;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-width: none;
+        transform: translateY(calc(-50% + 4px));
+      }
+      .prize-tooltip-wrap:hover .prize-tooltip,
+      .prize-tooltip-wrap:focus-visible .prize-tooltip {
+        transform: translateY(-50%);
+      }
+      .prize-tooltip::after { display: none; }
+
+      /* 로지텍 배너 — 모바일 최소 사이즈에서는 세로 스택으로 재구성 */
       .logitech-banner {
-        gap: 12px;
-        padding: 12px 14px;
-        min-height: 88px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+        padding: 14px 16px 28px;
+        min-height: 0;
+      }
+      /* 시각적 순서: 로고(상단 중앙) → 텍스트(전체 폭) → 마우스 이미지(하단 중앙) */
+      .logitech-banner__brand {
+        order: 1;
+        position: static;       /* 1280px 구간의 absolute 해제해 flex 흐름으로 복귀 */
+        top: auto;
+        right: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        align-self: stretch;
+        width: 100%;
+        padding: 0;
+      }
+      .logitech-banner__logo { height: 18px; }
+      .logitech-banner__content {
+        order: 2;
+        align-self: stretch;
+        width: 100%;
+        gap: 4px;
+      }
+      .logitech-banner__text-sub {
+        font-size: 18px;
+        line-height: 1.4;
+      }
+      .logitech-banner__text-main {
+        font-size: 22px;
+        line-height: 1.3;
+        word-break: keep-all;
       }
       .logitech-banner__media {
-        margin-top: -12px;
-        margin-bottom: -12px;
+        order: 3;
+        align-self: stretch;
+        width: 100%;
+        height: 72px;
+        margin: 0;
+        justify-content: center;
       }
-      .logitech-banner__text-sub { font-size: 13px; }
-      .logitech-banner__text-main { font-size: 18px; line-height: 1.25; }
-      .logitech-banner__logo { height: 14px; }
+      .logitech-banner__product {
+        height: 100%;
+        width: auto;
+        max-width: 100%;
+        transform: none;                /* 1280px 구간의 확대 해제 */
+        transform-origin: center center;
+        pointer-events: auto;
+      }
     }
   </style>
 </head>
@@ -2383,8 +2519,8 @@
                         </div>
                         <div class="step-card__num-wrap">
                           <div class="step-card__num">1</div>
-                          <p class="step-card__desc">PC방 바탕화면 상단 <b>[배그 랭킹전]</b><br />버튼 클릭</p>
-                          <p class="step-card__note">* 피카AI 관리프로그램의 경우, 요금제 창 하단에 버튼이 노출됩니다.</p>
+                          <p class="step-card__desc">PC방 바탕화면 상단<br class="br-mobile" /> <b>[배그 랭킹전]</b><br class="br-pc" />버튼 클릭</p>
+                          
                         </div>
                       </div>
                       <span class="step-arrow" aria-hidden="true">›</span>
@@ -2393,7 +2529,7 @@
                       <div class="step-card">
                         <div class="step-card__img-wrap">
                           <!-- [BACKEND] 이미지: step2_pc_screenshot_2 -->
-                          <img class="step-card__img" src="https://www.figma.com/api/mcp/asset/8ffcd3b1-94f0-4383-83fa-ce624ce2db6a" alt="랭킹전 참가하기" loading="lazy" />
+                          <img class="step-card__img" src="img/img_01_step2_02.png" alt="랭킹전 참가하기" loading="lazy" />
                         </div>
                         <div class="step-card__num-wrap">
                           <div class="step-card__num">2</div>
@@ -2432,7 +2568,7 @@
                         </div>
                         <div class="step-card__num-wrap">
                           <div class="step-card__num">1</div>
-                          <p class="step-card__desc"><a href="https://www.craftbox.co.kr/" target="_blank" rel="noopener noreferrer" class="step-card__link">크래프트박스 설치</a> 후 <b>[배그 랭킹전]</b> 접속</p>
+                          <p class="step-card__desc"><a href="https://www.craftbox.co.kr/" target="_blank" rel="noopener noreferrer" class="step-card__link">크래프트박스 설치</a> 후<br class="br-mobile" /> <b>[배그 랭킹전]</b> 접속</p>
                         </div>
                       </div>
                       <span class="step-arrow" aria-hidden="true">›</span>
@@ -2440,7 +2576,7 @@
                     <div class="step-card-wrap">
                       <div class="step-card">
                         <div class="step-card__img-wrap">
-                          <img class="step-card__img" src="https://www.figma.com/api/mcp/asset/8ffcd3b1-94f0-4383-83fa-ce624ce2db6a" alt="랭킹전 참가하기" loading="lazy" />
+                          <img class="step-card__img" src="img/img_01_step2_02.png" alt="랭킹전 참가하기" loading="lazy" />
                         </div>
                         <div class="step-card__num-wrap">
                           <div class="step-card__num">2</div>
@@ -2590,8 +2726,7 @@
               <div class="sub-prize-cell sub-prize-cell--amount">3,000 <img class="sub-prize-cell__coin" src="https://www.figma.com/api/mcp/asset/15c86ad7-8dc0-48dc-a005-f4fc6faf4e94" alt="" /></div>
               <div class="sub-prize-cell sub-prize-cell--rank">101~300등</div>
               <div class="sub-prize-cell sub-prize-cell--amount">1,000 <img class="sub-prize-cell__coin" src="https://www.figma.com/api/mcp/asset/15c86ad7-8dc0-48dc-a005-f4fc6faf4e94" alt="" /></div>
-              <div class="sub-prize-cell"></div>
-              <div class="sub-prize-cell"></div>
+            
             </div>
             <!-- [LOOP END] 하위 보상 테이블 -->
           </div>
@@ -2620,7 +2755,7 @@
                 <img class="prize-card__bg-text" src="img/back_txt.png" alt="" aria-hidden="true" loading="lazy" />
                 <p class="prize-card__rank">2등</p>
                 <div class="prize-card__amount">
-                  <span class="prize-card__amount-num">100,000</span>
+                  <span class="prize-card__amount-num">1,000</span>
                   <img class="prize-card__coin" src="img/img_coin_g.png" alt="마일리지 코인" loading="lazy" />
                 </div>
                 <p class="prize-card__gift-desc">팀 내 1~5등 지급</p>
@@ -2634,7 +2769,7 @@
                 <img class="prize-card__bg-text" src="img/back_txt.png" alt="" aria-hidden="true" loading="lazy" />
                 <p class="prize-card__rank">3등</p>
                 <div class="prize-card__amount">
-                  <span class="prize-card__amount-num">50,000</span>
+                  <span class="prize-card__amount-num">500</span>
                   <img class="prize-card__coin" src="img/img_coin_g.png" alt="마일리지 코인" loading="lazy" />
                 </div>
                 <p class="prize-card__gift-desc">팀 내 1~5등 지급</p>
@@ -2684,9 +2819,9 @@
 
           <div class="special-bonus__title">
             <span class="special-bonus__title-main">특별순위 추가 보상</span>
-            <span class="special-bonus__title-sub">아래 특별 순위를 달성하면 기본 보상과 별개로</span>
+            <span class="special-bonus__title-sub">아래 특별 순위를 달성하면<br class="br-mobile" /> 기본 보상과 별개로</span>
             <!-- [BACKEND] 특별 보상 마일리지 금액: special_bonus_amount -->
-            <span class="special-bonus__title-highlight">50,000 마일리지를 추가로 드려요</span>
+            <span class="special-bonus__title-highlight">50,000 마일리지를<br class="br-mobile" /> 추가로 드려요</span>
           </div>
 
           <div class="special-bonus__groups">
@@ -2783,7 +2918,7 @@
                 <img class="event-card__icon" src="https://www.figma.com/api/mcp/asset/da23eccb-ec44-4221-b7ab-8d8c57723700" alt="이벤트 아이콘" loading="lazy" />
                 <h3 class="event-card__title-text">누적 생존 60분 보상</h3>
               </div>
-              <p class="event-card__desc">이번 시즌 나의 누적 생존시간이 <b>60분 이상 달성</b>하면<br /><b>500 G-COIN</b>을 추첨 지급해드려요!</p>
+              <p class="event-card__desc">이번 시즌 나의 누적 생존시간이 <br class="br-mobile">60분 이상 달성</b>하면<br /><b>500 G-COIN</b>을 추첨 지급해드려요!</p>
               <!-- [BACKEND] G-COIN 이미지: gcoin_img -->
               <img class="event-card__gcoin-img" src="img/player_event_coin.png" alt="G-COIN" loading="lazy" />
               <!-- [BACKEND] 보상 금액: reward_amount_2 -->
@@ -2883,7 +3018,7 @@
         <!-- [BACKEND] 로지텍 경품 이미지/링크 교체: logitech_banner_url_2 -->
         <div class="logitech-banner logitech-banner--wr fade-up" style="transition-delay:0.3s;" role="button" tabindex="0" aria-label="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 경품 안내">
           <div class="logitech-banner__content">
-            <p class="logitech-banner__text-sub">누적 치킨 달성 <span class="t-accent">1~3회 달성</span> 인원 중 추첨을 통해</p>
+            <p class="logitech-banner__text-sub">누적 치킨 달성<br class="br-mobile" /> <span class="t-accent">1~3회 달성</span> 인원 중 추첨을 통해</p>
             <p class="logitech-banner__text-main">로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 지급!</p>
           </div>
           <div class="logitech-banner__media">
