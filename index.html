@@ -7,6 +7,33 @@
   <title>크래프트박스 리그: PUBG | 2026 S1 - 라스트 맨 스탠딩</title>
   <meta name="description" content="크래프트박스 리그 PUBG 2026 S1 - 지금 생존왕에 도전하세요!" />
 
+  <!-- [BACKEND] SNS 공유용 메타태그 (Open Graph + Twitter Card)
+       아래 3개 값만 배포 시 교체하세요:
+       - og:url / twitter:url : 배포 도메인(절대 URL)
+       - og:image / twitter:image : 공유 썸네일(절대 URL, 권장 1200x630)
+       - og:site_name : 필요 시 수정 -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="크래프트박스 리그" />
+  <meta property="og:title" content="크래프트박스 리그: PUBG | 2026 S1 - 라스트 맨 스탠딩" />
+  <meta property="og:description" content="크래프트박스 리그 PUBG 2026 S1 - 지금 생존왕에 도전하세요!" />
+  <meta property="og:url" content="https://html2-www.picaplay.com/pc/event/20260429_CBL_PUBG/" />
+  <meta property="og:image" content="https://html2-www.picaplay.com/pc/event/20260429_CBL_PUBG/img/Thumbnail.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="크래프트박스 리그 PUBG 2026 S1" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="크래프트박스 리그: PUBG | 2026 S1 - 라스트 맨 스탠딩" />
+  <meta name="twitter:description" content="크래프트박스 리그 PUBG 2026 S1 - 지금 생존왕에 도전하세요!" />
+  <meta name="twitter:url" content="https://html2-www.picaplay.com/pc/event/20260429_CBL_PUBG/" />
+  <meta name="twitter:image" content="https://html2-www.picaplay.com/pc/event/20260429_CBL_PUBG/img/Thumbnail.jpg" />
+
+  <!-- [BACKEND] Kakao JavaScript SDK (카카오톡 공유용)
+       https://developers.kakao.com 에서 앱 등록 후 발급받은 "JavaScript 키"를
+       하단 SHARE_CONFIG.kakaoKey 값에 교체하세요. 키 미설정 시 카카오톡 버튼은
+       URL 복사 폴백으로 자동 동작합니다. -->
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" crossorigin="anonymous"></script>
+
   <!-- 폰트: 격동고딕 HV (타이틀/헤드라인용) -->
   <link rel="preconnect" href="https://o6cdhdutve.execute-api.ap-northeast-2.amazonaws.com">
   <link rel="stylesheet" href="https://o6cdhdutve.execute-api.ap-northeast-2.amazonaws.com/v1/api/css/drop_fontstream_css/?sid=gAAAAABp4Z8MYRuI0O1Qsfcxwk7Mz6Sdp4un1frUBl8YRPrOn1YsHqTMdWWkAdJfT0N7F-eufXFxVd6rUSH2srnMRVLoWwknCAat2nneFvudSYCjieHsbtFm792Vz6adp2epO7Mxh9us6hnGYN5IKXJ0ih4UE7EZouEHKsT2h6qVt8G85OoyfXvgxNnPU5dxQ32eyzN7TAHOb-dKGZD4-KuynGA670LPus21dhc-JLq-QVbnU33hVC_a39L-aHkDoKRx89hST_AT" charset="utf-8" referrerpolicy="origin">
@@ -249,6 +276,110 @@
     .copy-toast.is-visible {
       opacity: 1;
       transform: translate(-50%, 0);
+    }
+
+    /* ── 공유하기 모달 ── */
+    .share-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2100;
+      padding: 20px;
+    }
+    .share-modal.is-open { display: flex; }
+    .share-modal__dialog {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 24px 28px;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      animation: shareModalIn 0.18s ease-out;
+    }
+    @keyframes shareModalIn {
+      from { transform: translateY(12px); opacity: 0; }
+      to   { transform: translateY(0);     opacity: 1; }
+    }
+    .share-modal__title {
+      font-family: 'Pretendard', sans-serif;
+      color: #111;
+      font-size: 20px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+    .share-modal__close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 26px;
+      color: #555;
+      line-height: 1;
+      border-radius: 50%;
+      transition: background 0.15s;
+    }
+    .share-modal__close:hover { background: #f0f0f0; }
+    .share-modal__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .share-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 4px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    .share-item:hover { background: #f5f5f7; }
+    .share-item__icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    .share-item__icon svg { width: 28px; height: 28px; display: block; }
+    .share-item--kakao     .share-item__icon { background: #FEE500; color: #181600; }
+    .share-item--facebook  .share-item__icon { background: #1877F2; }
+    .share-item--twitter   .share-item__icon { background: #000; }
+    .share-item--naver     .share-item__icon { background: #03C75A; }
+    .share-item--instagram .share-item__icon {
+      background: linear-gradient(135deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%);
+    }
+    .share-item--copy      .share-item__icon { background: #2c2c32; }
+    .share-item__label {
+      font-family: 'Pretendard', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+    @media (max-width: 480px) {
+      .share-modal__dialog { padding: 28px 18px 22px; }
+      .share-modal__grid { gap: 8px; }
+      .share-item__icon { width: 52px; height: 52px; }
+      .share-item__icon svg { width: 26px; height: 26px; }
+      .share-item__label { font-size: 12px; }
     }
 
     /* ════════════════════════════════════════
@@ -1441,7 +1572,7 @@
     }
     /* [LOOP START] 이벤트 카드 - event_card_list 배열 반복 */
     .event-card {
-      border-radius: 0 0 8px 8px;
+      
       overflow: hidden;
       transition: transform 0.2s;
     }
@@ -1530,13 +1661,6 @@
       padding: 22px 24px;
       box-sizing: border-box;
       overflow: hidden;
-      cursor: pointer;
-      transition: filter 0.2s;
-    }
-    .logitech-banner:hover { filter: brightness(1.1); }
-    .logitech-banner:focus-visible {
-      outline: 2px solid #2563ff;
-      outline-offset: 2px;
     }
     /* 섹션별 분리 스타일 훅 — 각 배너를 독립적으로 커스터마이즈 가능 */
     /* NEW PLAYER EVENT 섹션 전용 오버라이드는 .logitech-banner--npe { ... } 에 추가 */
@@ -1759,7 +1883,7 @@
     .chicken-card__info { flex: 1; min-width: 0; padding-top: 2px; }
     .chicken-card__title {
       font-family: 'Pretendard', sans-serif;
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 900;
       color: #000;
       line-height: 1.1;
@@ -2968,7 +3092,7 @@
 
         <!-- 로지텍 경품 배너 -->
         <!-- [BACKEND] 로지텍 경품 이미지/링크 교체: logitech_banner_url, logitech_img -->
-        <div class="logitech-banner logitech-banner--npe fade-up" style="transition-delay:0.2s;" role="button" tabindex="0" aria-label="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 경품 안내">
+        <div class="logitech-banner logitech-banner--npe fade-up" style="transition-delay:0.2s;">
           <div class="logitech-banner__content">
             <span class="logitech-banner__badge">추첨 1명 지급!</span>
             <p class="logitech-banner__text-sub">랭킹전 최초 참여 및 누적 생존 <span class="t-accent">60분 달성</span> 인원 중 추첨을 통해</p>
@@ -3054,7 +3178,7 @@
 
         <!-- 로지텍 경품 배너 -->
         <!-- [BACKEND] 로지텍 경품 이미지/링크 교체: logitech_banner_url_2 -->
-        <div class="logitech-banner logitech-banner--wr fade-up" style="transition-delay:0.3s;" role="button" tabindex="0" aria-label="로지텍 G PRO X SUPERLIGHT 2 게이밍 무선 마우스 경품 안내">
+        <div class="logitech-banner logitech-banner--wr fade-up" style="transition-delay:0.3s;">
           <div class="logitech-banner__content">
             <span class="logitech-banner__badge">추첨 1명 지급!</span>
             <p class="logitech-banner__text-sub">누적 치킨 달성<br class="br-mobile" /> <span class="t-accent">1~3회 달성</span> 인원 중 추첨을 통해</p>
@@ -3076,6 +3200,54 @@
     </section>
 
   </main>
+
+  <!-- ═══════════════════════════════
+       공유하기 모달
+  ════════════════════════════════ -->
+  <div id="shareModal" class="share-modal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle" aria-hidden="true">
+    <div class="share-modal__dialog" role="document">
+      <button type="button" class="share-modal__close" id="shareModalClose" aria-label="닫기">&times;</button>
+      <h2 id="shareModalTitle" class="share-modal__title">공유하기</h2>
+      <div class="share-modal__grid">
+        <button type="button" class="share-item share-item--kakao" data-share="kakao" aria-label="카카오톡으로 공유">
+          <span class="share-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.48 3 2 6.58 2 11c0 2.83 1.86 5.32 4.66 6.73L5.5 21.5l4.2-2.47c.76.11 1.54.17 2.3.17 5.52 0 10-3.58 10-8S17.52 3 12 3z"/></svg>
+          </span>
+          <span class="share-item__label">카카오톡</span>
+        </button>
+        <button type="button" class="share-item share-item--facebook" data-share="facebook" aria-label="페이스북으로 공유">
+          <span class="share-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.4 0-4.1 1.5-4.1 4.2v2.3H7.5v3.1h2.6V21h3.4z"/></svg>
+          </span>
+          <span class="share-item__label">페이스북</span>
+        </button>
+        <button type="button" class="share-item share-item--twitter" data-share="twitter" aria-label="트위터(X)로 공유">
+          <span class="share-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+          </span>
+          <span class="share-item__label">트위터</span>
+        </button>
+        <button type="button" class="share-item share-item--naver" data-share="naver" aria-label="네이버 블로그로 공유">
+          <span class="share-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.91 12.03 9.94 6H6v12h4.09v-6.03L14.06 18H18V6h-4.09z"/></svg>
+          </span>
+          <span class="share-item__label">네이버블로그</span>
+        </button>
+        <button type="button" class="share-item share-item--instagram" data-share="instagram" aria-label="인스타그램 공유용 URL 복사">
+          <span class="share-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.2.4.6.2 1 .5 1.4 1 .5.4.8.8 1 1.4.2.4.4 1 .4 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.8-.4 2.2-.2.6-.5 1-1 1.4-.4.5-.8.8-1.4 1-.4.2-1 .4-2.2.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.2-.4-.6-.2-1-.5-1.4-1-.5-.4-.8-.8-1-1.4-.2-.4-.4-1-.4-2.2-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.3-1.8.4-2.2.2-.6.5-1 1-1.4.4-.5.8-.8 1.4-1 .4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 2.2c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.3-.6.7-.8 1.2-.1.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.3.4.7.6 1.2.8.4.1 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.3.6-.7.8-1.2.1-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.3-.4-.7-.6-1.2-.8-.4-.1-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.7a4.1 4.1 0 1 1 0 8.2 4.1 4.1 0 0 1 0-8.2zm0 6.7a2.6 2.6 0 1 0 0-5.2 2.6 2.6 0 0 0 0 5.2zm5.2-6.9a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/></svg>
+          </span>
+          <span class="share-item__label">인스타그램</span>
+        </button>
+        <button type="button" class="share-item share-item--copy" data-share="copy" aria-label="URL 복사">
+          <span class="share-item__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </span>
+          <span class="share-item__label">URL 복사</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div id="copyToast" class="copy-toast" role="status" aria-live="polite">클립보드에 복사되었습니다.</div>
   <div class="mobile-fab" aria-label="모바일 플로팅 버튼">
@@ -3294,16 +3466,26 @@
     window.addEventListener('scroll', updateSideNav, { passive: true });
     updateSideNav();
 
-    // ── 공유하기 버튼: URL 복사 + 토스트 ──
+    // ── 공유하기: 설정 / 토스트 / 모달 / SNS 핸들러 ──
+    // [BACKEND] 배포 시 아래 3개 값만 교체하세요.
+    var SHARE_CONFIG = {
+      title: '크래프트박스 리그: PUBG | 2026 S1 - 라스트 맨 스탠딩',
+      description: '크래프트박스 리그 PUBG 2026 S1 - 지금 생존왕에 도전하세요!',
+      kakaoKey: 'd1c0c39f4dbac0062bf36527a3021357',                      // Kakao Developers JavaScript 키
+      ogImage:  'https://html2-www.picaplay.com/pc/event/20260429_CBL_PUBG/img/Thumbnail.jpg'   // 공유 썸네일 절대 URL (권장 1200x630)
+    };
+
     var copyToast = document.getElementById('copyToast');
     var copyToastTimer = null;
-    function showCopyToast() {
+    var DEFAULT_TOAST_MSG = '클립보드에 복사되었습니다.';
+    function showCopyToast(msg) {
       if (!copyToast) { return; }
+      copyToast.textContent = msg || DEFAULT_TOAST_MSG;
       copyToast.classList.add('is-visible');
       if (copyToastTimer) { clearTimeout(copyToastTimer); }
       copyToastTimer = setTimeout(function() {
         copyToast.classList.remove('is-visible');
-      }, 1800);
+      }, 2200);
     }
     function fallbackCopyText(text) {
       var textarea = document.createElement('textarea');
@@ -3320,25 +3502,146 @@
       document.body.removeChild(textarea);
       return copied;
     }
-    function copyCurrentUrl() {
-      var url = window.location.href;
+    function copyUrlWithToast(url, toastMsg) {
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(url).then(function() {
-          showCopyToast();
+          showCopyToast(toastMsg);
         }).catch(function() {
-          if (fallbackCopyText(url)) { showCopyToast(); }
+          if (fallbackCopyText(url)) { showCopyToast(toastMsg); }
         });
       } else if (fallbackCopyText(url)) {
-        showCopyToast();
+        showCopyToast(toastMsg);
       }
     }
+
+    // Kakao SDK 초기화 (앱키가 placeholder이면 초기화하지 않음)
+    (function initKakao() {
+      if (!window.Kakao) { return; }
+      if (Kakao.isInitialized && Kakao.isInitialized()) { return; }
+      if (!SHARE_CONFIG.kakaoKey || SHARE_CONFIG.kakaoKey === 'YOUR_KAKAO_JS_KEY') { return; }
+      try { Kakao.init(SHARE_CONFIG.kakaoKey); } catch (e) {}
+    })();
+
+    // 공유 모달 열기/닫기
+    var shareModal = document.getElementById('shareModal');
+    var shareModalClose = document.getElementById('shareModalClose');
+    var lastShareTrigger = null;
+    function openShareModal(trigger) {
+      if (!shareModal) { return; }
+      lastShareTrigger = trigger || null;
+      shareModal.classList.add('is-open');
+      shareModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (shareModalClose) { shareModalClose.focus(); }
+    }
+    function closeShareModal() {
+      if (!shareModal) { return; }
+      shareModal.classList.remove('is-open');
+      shareModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastShareTrigger && lastShareTrigger.focus) { lastShareTrigger.focus(); }
+    }
+    if (shareModal) {
+      shareModal.addEventListener('click', function(e) {
+        if (e.target === shareModal) { closeShareModal(); }
+      });
+    }
+    if (shareModalClose) {
+      shareModalClose.addEventListener('click', closeShareModal);
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && shareModal && shareModal.classList.contains('is-open')) {
+        closeShareModal();
+      }
+    });
+
+    // SNS별 공유 동작
+    function openPopup(url) {
+      var w = 600, h = 600;
+      var left = (window.screen.width  - w) / 2;
+      var top  = (window.screen.height - h) / 2;
+      window.open(url, '_blank', 'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top + ',noopener');
+    }
+    function shareFacebook() {
+      var u = encodeURIComponent(window.location.href);
+      openPopup('https://www.facebook.com/sharer/sharer.php?u=' + u);
+    }
+    function shareTwitter() {
+      var u = encodeURIComponent(window.location.href);
+      var t = encodeURIComponent(SHARE_CONFIG.title);
+      openPopup('https://twitter.com/intent/tweet?url=' + u + '&text=' + t);
+    }
+    function shareNaver() {
+      var u = encodeURIComponent(window.location.href);
+      var t = encodeURIComponent(SHARE_CONFIG.title);
+      openPopup('https://share.naver.com/web/shareView?url=' + u + '&title=' + t);
+    }
+    function shareKakao() {
+      // 앱키가 없거나 SDK 미로드 시 URL 복사 폴백
+      if (!window.Kakao || !Kakao.isInitialized || !Kakao.isInitialized() || !Kakao.Share) {
+        copyUrlWithToast(window.location.href, '카카오 앱키 미설정 — URL이 복사되었습니다.');
+        return;
+      }
+      try {
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: SHARE_CONFIG.title,
+            description: SHARE_CONFIG.description,
+            imageUrl: SHARE_CONFIG.ogImage,
+            link: {
+              mobileWebUrl: window.location.href,
+              webUrl: window.location.href
+            }
+          },
+          buttons: [{
+            title: '자세히 보기',
+            link: {
+              mobileWebUrl: window.location.href,
+              webUrl: window.location.href
+            }
+          }]
+        });
+      } catch (e) {
+        copyUrlWithToast(window.location.href, 'URL이 복사되었습니다.');
+      }
+    }
+    function shareInstagram() {
+      // 인스타그램은 웹 URL 공유 API를 제공하지 않으므로 URL 복사 + 안내
+      copyUrlWithToast(window.location.href, 'URL이 복사되었습니다. 인스타그램에 붙여넣어 주세요.');
+    }
+    function shareCopy() {
+      copyUrlWithToast(window.location.href, '클립보드에 복사되었습니다.');
+    }
+    var SHARE_HANDLERS = {
+      kakao:     shareKakao,
+      facebook:  shareFacebook,
+      twitter:   shareTwitter,
+      naver:     shareNaver,
+      instagram: shareInstagram,
+      copy:      shareCopy
+    };
+    if (shareModal) {
+      shareModal.addEventListener('click', function(e) {
+        var target = e.target.closest ? e.target.closest('[data-share]') : null;
+        if (!target) { return; }
+        var type = target.getAttribute('data-share');
+        var handler = SHARE_HANDLERS[type];
+        if (typeof handler === 'function') {
+          handler();
+          // 카카오톡은 자체 팝업이 뜨므로 모달은 닫고, 나머지는 약간의 시각적 피드백 후 닫기
+          closeShareModal();
+        }
+      });
+    }
+
     var btnShare = document.getElementById('btnShare');
     if (btnShare) {
-      btnShare.addEventListener('click', copyCurrentUrl);
+      btnShare.addEventListener('click', function() { openShareModal(btnShare); });
     }
     var btnShareFloating = document.getElementById('btnShareFloating');
     if (btnShareFloating) {
-      btnShareFloating.addEventListener('click', copyCurrentUrl);
+      btnShareFloating.addEventListener('click', function() { openShareModal(btnShareFloating); });
     }
     var btnTopFloating = document.getElementById('btnTopFloating');
     if (btnTopFloating) {
